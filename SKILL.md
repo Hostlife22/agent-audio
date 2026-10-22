@@ -70,7 +70,8 @@ Measured on the user's 20 reference videos, details in [reference-study](referen
 
 1. `timeline.py beats spec.json` -> tag the beats -> `speak.py` -> `transcribe.py --script`.
 2. Re-time the film to the new voice in toon-explainer (`script2spec.py --srt vo.srt --merge`, `lipsync.py`), render.
-3. `timeline.py events spec.json --words vo.words.json --md timeline.md` and read `timeline.md`.
+3. `timeline.py events spec.json --words vo.words.json --script script.md --md timeline.md` and read `timeline.md`
+   (with `--script`, the storyboard's `Music map:` and `- Sound:` lines appear next to the events as the brief).
 4. Write `soundtrack.json`: assets (music prompts, library effects), music cues per section, effects on events,
    dips before punchlines. Anchors like `"k12+1.4"` or `"word:knock"` survive re-timing.
 5. `soundtrack.py --dry-run` (cost, cue sheet) -> `--assets-only` -> build with `--out` and `--video-out`.

@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """Read a toon-explainer spec and lay out what the soundtrack has to follow.
 
-  timeline.py events film/spec.json [--words vo.words.json] --out timeline.json --md timeline.md
+  timeline.py events film/spec.json [--words vo.words.json] [--script film/script.md] --out timeline.json --md timeline.md
   timeline.py beats  film/spec.json --out narration.json        # narration plan (one beat per shot) for speak.py
 
 `events` lists every shot with absolute start/end, voiceover, grade/background changes and the on-screen events
 (transitions, punch-zooms, shakes, stamps, flashes, counters, entrances...) at absolute times, each with a
 sound suggestion from references/event-sounds.json. With --words it adds when speech actually runs in each shot and
-the pauses where a stinger or a music stop can land. No network, no credentials.
+the pauses where a stinger or a music stop can land. With --script it adds the director's sound plan from the
+storyboard: each shot's "- Sound:" line, and a "Music map:" block written above the first shot. No network.
 """
 from __future__ import annotations
 
@@ -21,6 +22,9 @@ import sys
 from common import AudioError, ROOT, USER_ERRORS, fail, read_json, write_json
 
 EVENT_TABLE = ROOT / "references" / "event-sounds.json"
+SHOT_LINE = re.compile(r"^\s*\**\s*Shot\s*(\d+)\b", re.IGNORECASE)
+SOUND_LINE = re.compile(r"^\s*[\u2014\u2013\-*]?\s*Sound\s*:\s*(.+)$", re.IGNORECASE)
+BRIEF_LINE = re.compile(r"^\s*(?:Music|Sound)(?:\s+(?:map|plan))?\s*:", re.IGNORECASE)
 MIN_GAP_SECONDS = 0.6
 TIER_ORDER = "ABC"
 
@@ -123,6 +127,35 @@ def suggestion_for(kind, table):
     return entry or {"tier": "C", "sound": ""}
 
 
+# ---------- director's sound plan (storyboard) ----------
+
+def sound_plan(text):
+    """Storyboard -> {"shots": {kNN: text}, "brief": [lines]}.
+
+    "- Sound:" lines belong to the shot above them (Shot N -> kNN, the id script2spec gives it). A "Music map:"
+    or "Sound plan:" block before the first shot is the brief: its heading and following non-blank lines.
+    """
+    shots, brief, current, in_brief = {}, [], None, False
+    for raw in text.splitlines():
+        line = raw.strip()
+        match = SHOT_LINE.match(line)
+        if match:
+            current, in_brief = f"k{int(match.group(1)):02d}", False
+            continue
+        if current is None:
+            if BRIEF_LINE.match(line):
+                in_brief = True
+            elif not line:
+                in_brief = False
+            if in_brief and line:
+                brief.append(line)
+            continue
+        match = SOUND_LINE.match(line)
+        if match:
+            shots[current] = "; ".join(filter(None, [shots.get(current), match.group(1).strip()]))
+    return {"shots": shots, "brief": brief}
+
+
 # ---------- speech alignment ----------
 
 def normalise(word):
@@ -156,7 +189,7 @@ def speech_gaps(words, minimum=MIN_GAP_SECONDS):
 
 # ---------- build ----------
 
-def build_timeline(spec, table, words=None):
+def build_timeline(spec, table, words=None, sound=None):
     shots, start = [], 0.0
     spans = speech_spans(spec["shots"], words) if words else {}
     for index, shot in enumerate(spec["shots"]):
@@ -177,12 +210,18 @@ def build_timeline(spec, table, words=None):
                                     "sound": hint.get("sound", "")})
         if index in spans:
             entry["speech"] = [round(spans[index][0], 3), round(spans[index][1], 3)]
+        if sound and entry["id"] in sound["shots"]:
+            entry["sound_plan"] = sound["shots"][entry["id"]]
         shots.append(entry)
         start += duration
     result = {"title": spec.get("title", ""), "fps": spec.get("fps"), "format": spec.get("format", "landscape"),
               "duration_seconds": round(start, 3), "shots": shots}
     if words:
         result["speech_gaps"] = speech_gaps(words)
+    if sound and (sound["shots"] or sound["brief"]):
+        ids = {shot["id"] for shot in shots}
+        result["sound_brief"] = sound["brief"]
+        result["sound_plan_unmatched"] = sorted(set(sound["shots"]) - ids)
     return result
 
 
@@ -208,6 +247,10 @@ def to_markdown(timeline, tiers):
              f"Duration {clock(timeline['duration_seconds'])} ({timeline['duration_seconds']} s), "
              f"{len(timeline['shots'])} shots, format {timeline['format']}. Times are absolute seconds. "
              f"Event tiers shown: {tiers}. `*` marks a background/grade change (music section candidate).", ""]
+    if timeline.get("sound_brief"):
+        lines += ["## Director's music map (storyboard)", "", *timeline["sound_brief"], ""]
+    if timeline.get("sound_plan_unmatched"):
+        lines += [f"Sound lines for shots missing from the spec: {', '.join(timeline['sound_plan_unmatched'])}", ""]
     for shot in timeline["shots"]:
         marker = "*" if shot["id"] in changes else " "
         speech = f" speech {shot['speech'][0]:.2f}-{shot['speech'][1]:.2f}" if "speech" in shot else ""
@@ -215,6 +258,8 @@ def to_markdown(timeline, tiers):
                      f"bg={shot['bg']} grade={shot['grade']}{speech}")
         if shot["vo"]:
             lines.append(f"    VO: {shot['vo']}")
+        if shot.get("sound_plan"):
+            lines.append(f"    SOUND PLAN: {shot['sound_plan']}")
         for item in shot["events"]:
             if item["tier"] not in tiers:
                 continue
@@ -241,6 +286,7 @@ def main(argv=None):
     parser.add_argument("command", choices=("events", "beats"))
     parser.add_argument("spec", type=Path)
     parser.add_argument("--words", type=Path, help="transcribe.py output for speech spans and pauses")
+    parser.add_argument("--script", type=Path, help="events: storyboard with '- Sound:' lines and a 'Music map:' brief")
     parser.add_argument("--out", type=Path)
     parser.add_argument("--md", type=Path, help="events: also write a compact Markdown timeline")
     parser.add_argument("--tiers", default="AB", help="events: tiers shown in Markdown (A strong, B medium, C minor)")
@@ -252,7 +298,8 @@ def main(argv=None):
             result = narration_plan(spec, args.mode)
         else:
             words = read_json(args.words)["words"] if args.words else None
-            result = build_timeline(spec, read_json(EVENT_TABLE)["events"], words)
+            sound = sound_plan(args.script.read_text(encoding="utf-8-sig")) if args.script else None
+            result = build_timeline(spec, read_json(EVENT_TABLE)["events"], words, sound)
             if args.md:
                 args.md.write_text(to_markdown(result, args.tiers.upper()), encoding="utf-8")
         if args.out:

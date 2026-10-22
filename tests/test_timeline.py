@@ -65,6 +65,50 @@ class TimelineTests(unittest.TestCase):
             timeline.narration_plan({"shots": [{"id": "x", "dur": 1}]}, "ironic")
 
 
+STORYBOARD = """# Test film
+Central question: why?
+Music map:
+- k01-k01: cold mystery, muted pizzicato
+- k02: hard cut to dark drone, silence before "die"
+
+**Shot 1** 🎬
+- Voiceover: "October, 1924. Reporters wait."
+- On screen: flashbulbs pop
+- Sound: flashbulb pops on the flashes; low crowd murmur
+
+**Shot 2**
+- Voiceover: "Workers started to die."
+Sound: music cuts dead on the glitch; heavy thud on "die"
+
+**Shot 9**
+- Voiceover: "Not in the film."
+- Sound: should be reported as unmatched
+"""
+
+
+class SoundPlanTests(unittest.TestCase):
+    def test_storyboard_sound_lines_map_to_shot_ids_and_brief(self):
+        plan = timeline.sound_plan(STORYBOARD)
+        self.assertEqual(plan["shots"]["k01"], "flashbulb pops on the flashes; low crowd murmur")
+        self.assertEqual(plan["shots"]["k02"], 'music cuts dead on the glitch; heavy thud on "die"')
+        self.assertEqual(plan["brief"], ["Music map:", "- k01-k01: cold mystery, muted pizzicato",
+                                         '- k02: hard cut to dark drone, silence before "die"'])
+
+    def test_timeline_shows_planned_sound_next_to_events(self):
+        result = timeline.build_timeline(SPEC, TABLE, sound=timeline.sound_plan(STORYBOARD))
+        self.assertEqual(result["shots"][1]["sound_plan"], 'music cuts dead on the glitch; heavy thud on "die"')
+        self.assertEqual(result["sound_plan_unmatched"], ["k09"])
+        markdown = timeline.to_markdown(result, "AB")
+        self.assertIn("    SOUND PLAN: flashbulb pops", markdown)
+        self.assertIn("- k02: hard cut to dark drone", markdown)
+        self.assertIn("k09", markdown)
+
+    def test_storyboard_without_sound_lines_changes_nothing(self):
+        plain = timeline.build_timeline(SPEC, TABLE, sound=timeline.sound_plan("**Shot 1**\n- Voiceover: hi"))
+        self.assertNotIn("sound_plan", plain["shots"][0])
+        self.assertEqual(plain, timeline.build_timeline(SPEC, TABLE))
+
+
 class AnchorTests(unittest.TestCase):
     def setUp(self):
         self.anchor = soundtrack.Anchors(timeline.build_timeline(SPEC, TABLE), WORDS + [

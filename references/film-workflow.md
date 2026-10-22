@@ -56,11 +56,14 @@ the full-resolution render at the end.
 
 ```bash
 python3 $SKILL/scripts/timeline.py events $FILM/v3/spec.json --words $FILM/audio/vo.words.json \
-  --out $FILM/audio/timeline.json --md $FILM/audio/timeline.md --tiers AB
+  --script $FILM/script.md --out $FILM/audio/timeline.json --md $FILM/audio/timeline.md --tiers AB
 ```
 
 `timeline.md` lists each shot with absolute start/end, background, grade, when speech runs, and its events with a
-tier and a suggested library sound. `*` marks background/grade changes: candidate music sections. The tail lists
+tier and a suggested library sound. With `--script` it also shows the director's sound plan written in the
+storyboard: a `Music map:` block above the first shot (moods per act, where the music stops) and a `- Sound:` line per
+shot (`SOUND PLAN: heavy metal knock on "knock"`). Treat that plan as the brief: realise it with real anchors, and
+add tier-A events it forgot. toon-explainer's `script2spec.py` ignores both, so they are safe in `script.md`. `*` marks background/grade changes: candidate music sections. The tail lists
 speech pauses of 0.6 s or more: slots for stingers and music stops. A full 8.7-minute film produced about 590 events;
 only tier A and the B events that carry a joke deserve sound.
 
