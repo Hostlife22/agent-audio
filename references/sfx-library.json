@@ -45,6 +45,16 @@
     "slide-whistle-down": {"seconds": 1.0, "prompt": "A descending cartoon slide whistle, falling pitch, comedic."},
     "error-buzzer": {"seconds": 0.8, "prompt": "A harsh game-show wrong-answer buzzer, short."},
     "heartbeat": {"seconds": 2.0, "prompt": "Two slow heavy heartbeats, deep and close, tense."},
-    "clock-tick": {"seconds": 2.0, "prompt": "A mechanical clock ticking four times, dry and close."}
+    "clock-tick": {"seconds": 2.0, "prompt": "A mechanical clock ticking four times, dry and close."},
+    "bulb-blowout": {"seconds": 2, "prompt": "A small incandescent light bulb blowing out: one sharp glass tink and a short electric pop, close, dry, no reverb."},
+    "pen-scratch": {"seconds": 3, "prompt": "A fountain pen scratching a short line of handwriting on thick paper, close and dry."},
+    "phone-bell-1920s": {"seconds": 2, "prompt": "One short burst of an old 1920s mechanical telephone bell ringing, metallic, in a quiet office."},
+    "knife-switch-lever": {"seconds": 3, "prompt": "A big electrical knife switch lever thrown with a heavy metal clunk, then a quick rising electric hum."},
+    "gavel-strike": {"seconds": 2, "prompt": "One sharp wooden judge's gavel strike on a sound block in a courtroom, short wooden crack with a small room reflection."},
+    "toaster-pop-die": {"seconds": 3, "prompt": "A chrome toaster popping up toast with a spring clang, then a tiny electrical fizz and crackle as it dies."},
+    "amb-night-room-hum": {"seconds": 24, "prompt": "Quiet room tone of an old fire station at night: a low steady electrical hum of a single incandescent light bulb, faint distant traffic outside. Steady background bed, no voices."},
+    "amb-rain-window": {"seconds": 24, "prompt": "Steady rain on a window glass at night with soft gutter drips and very distant thunder. Steady background bed, no voices."},
+    "amb-lab-bulbs-buzz": {"seconds": 24, "prompt": "Many incandescent test light bulbs buzzing together in a tiled laboratory, steady electrical hum with a faint wall clock ticking. Steady background bed, no voices."},
+    "amb-factory-1920s": {"seconds": 20, "prompt": "1920s factory floor: rhythmic metal clanking machinery, steam hiss and a rattling conveyor belt. Steady background bed, no voices."}
   }
 }
