@@ -1,0 +1,23 @@
+{
+  "source": "The Man Who Poisoned the World Twice, v3 spec shots k01-k18",
+  "beats": [
+    {"shot": "k01", "mode": "serious", "direction": "Quiet intrigue, a storyteller setting a scene.", "text": "October, 1924. A room full of reporters in New York."},
+    {"shot": "k02", "mode": "serious", "text": "A man in a neat bow tie steps up to a table."},
+    {"shot": "k03", "mode": "serious", "text": "He pours a clear liquid over his hands."},
+    {"shot": "k04", "mode": "serious", "text": "Then he holds the bottle under his nose, and breathes it in. [pause] For a <stress>full minute</stress>."},
+    {"shot": "k05", "mode": "deadpan", "text": "He smiles. [pause] The reporters write it all down."},
+    {"shot": "k06", "mode": "serious", "direction": "Darker and slower, the smile is gone.", "text": "Days earlier, workers making that same liquid had started to die."},
+    {"shot": "k07", "mode": "conspiratorial", "text": "And you are probably still carrying a piece of it. [pause] Right now."},
+    {"shot": "k08", "mode": "dramatic", "text": "So how did one cheap additive end up inside almost every human on Earth?"},
+    {"shot": "k09", "mode": "dramatic", "text": "And why did it take a <stress>hundred years</stress> to get it out?"},
+    {"shot": "k10", "mode": "ironic", "text": "To understand it, we have to go back. Dayton, Ohio. 1921."},
+    {"shot": "k11", "mode": "ironic", "text": "America has fallen in love with the car. [pause] But the car has a problem."},
+    {"shot": "k12", "mode": "ironic", "text": "Push the engine harder, and it starts to <stress>knock</stress>."},
+    {"shot": "k13", "mode": "ironic", "text": "Knocking wastes power, and it can tear the engine apart."},
+    {"shot": "k14", "mode": "fast-ironic", "text": "General Motors wants it fixed. Its research chief, Charles Kettering, wants it fixed <stress>fast</stress>."},
+    {"shot": "k15", "mode": "ironic", "text": "So he hands the job to a young engineer."},
+    {"shot": "k16", "mode": "deadpan", "text": "Not a chemist. Not a doctor. [pause] A mechanical engineer with a gift for selling ideas."},
+    {"shot": "k17", "mode": "dramatic", "text": "His name was Thomas Midgley Junior."},
+    {"shot": "k18", "mode": "serious", "direction": "Ominous, measured, a quiet warning.", "text": "Remember that name. History will hang it next to two of the worst mistakes ever made."}
+  ]
+}

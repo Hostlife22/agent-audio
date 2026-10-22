@@ -1,0 +1,36 @@
+{
+  "beats": [
+    {
+      "mode": "ironic",
+      "text": "[amused, conversational] At nine in the morning, King Bernard declared war on a pigeon. A bold strategic move. The pigeon had, admittedly, been sitting on his statue."
+    },
+    {
+      "mode": "mock-outrage",
+      "text": "[amused disbelief] This is an insult to the crown!"
+    },
+    {
+      "mode": "ironic",
+      "text": "So he sent twelve soldiers, three advisers, and a man whose only job was carrying a very impressive flag."
+    },
+    {
+      "mode": "conspiratorial",
+      "text": "The pigeon had <stress>no flag</stress>. Frankly, things looked bad."
+    },
+    {
+      "mode": "short",
+      "text": "The soldiers charged. The crowd cheered. The pigeon moved six inches to the left."
+    },
+    {
+      "mode": "deadpan",
+      "text": "A devastating tactical retreat."
+    },
+    {
+      "mode": "ironic",
+      "text": "By lunchtime, the army had broken a ladder, lost a helmet, and accidentally arrested the royal gardener. Naturally, the king announced a magnificent victory."
+    },
+    {
+      "mode": "deadpan",
+      "text": "The pigeon was unavailable for comment. [pause] It was busy sitting on his other statue."
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Audio"
+  short_description: "Narration, music, sound effects and finished mixes for animated explainer videos"
+  default_prompt: "Use $agent-audio to voice and score this film: ENERGETIC narration, a music palette cut to the shots, effects on the on-screen events, a -14 LUFS mix with QA, muxed into the video."

@@ -1,0 +1,18 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+# Generated audio and caches
+library/
+output/
+assets/
+*.stems/
+*.parts/
+*.source.mp3
+*.manifest.json
+.agent-audio-levels.json
+*.mp3
+*.wav
+*.mp4
+.coverage

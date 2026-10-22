@@ -1,0 +1,25 @@
+{
+  "voice_id": "1bf2dee1ca2848b5bc0580a4d9301341",
+  "voice_name": "ENERGETIC",
+  "voice_url": "https://fish.audio/m/1bf2dee1ca2848b5bc0580a4d9301341/",
+  "model": "fish-audio/drama-3",
+  "default_mode": "ironic",
+  "base_direction": "Keep the selected voice's natural timbre. For English, preserve its American pronunciation. Speak only the script, never directions. No music or added sound effects.",
+  "modes": {
+    "ironic": {"direction": "Lively conversational storyteller, an audible smile, playful dry irony, varied intonation. Short comic pauses, no mournful tone or harsh shouting."},
+    "short": {"direction": "Fast, animated explainer for a short video. Punchy phrases, playful disbelief, clear key words, quick comic timing. Keep the same voice without straining."},
+    "fast-ironic": {"direction": "Quick, wry recap with flowing sentences, a grin, mock disbelief and dry punchlines. Keep every word intelligible."},
+    "deadpan": {"direction": "Dry, mock-serious understatement at a conversational pace. A tiny beat before the punchline; amused rather than sad or bored."},
+    "dramatic": {"direction": "Build anticipation and urgency through emphasis and rising energy. Preserve normal speaking pitch; avoid a slow, deep movie-trailer voice."},
+    "serious": {"direction": "Sincere and thoughtful, steady conversational pace, clear varied intonation. No irony, theatrical grief, or whispering unless explicitly marked."},
+    "rapid": {"direction": "An excited rapid montage or list, concise rhythmic phrases, minimal gaps. Articulate clearly and keep the chosen timbre."},
+    "sponsor": {"direction": "Bright, engaging promotional read, smiling and confident, quick but intelligible. Preserve the narrator rather than switching to an announcer impersonation."},
+    "mock-outrage": {"direction": "Brief comic indignation and incredulous questions with a smile. Express surprise through intonation, not harsh yelling; relax on the final word."},
+    "conspiratorial": {"direction": "A brief sly aside to a friend, softer and slightly closer, playful and confidential. Do not turn the whole passage into breathy whispering."},
+    "character": {"direction": "Act the quoted character's intent with expressive prosody while retaining this narrator's timbre and accent. Return naturally to narration afterward."},
+    "host": {"direction": "Mock-formal presenter, confident, a little smug, crisp diction and subtle comic understatement, keeping a conversational pace."},
+    "poetry": {"direction": "Measured, melodic phrasing with clear emotional intention and short pauses. Keep natural pitch and avoid overlong syllables."},
+    "outro": {"direction": "Warm, upbeat, quick ending with an audible smile and a confident final beat. Energetic without shouting."},
+    "calm": {"direction": "Relaxed, friendly and clear, with a natural smile and gently varied intonation. Comfortable pace, neither sleepy nor sad."}
+  }
+}
